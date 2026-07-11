@@ -38,15 +38,15 @@
             object-fit: contain;
         }
 
-        /* Petit efecte de sacsejada ràpida cada vegada que es clica */
-        .sacudida {
-            animation: tremor 0.15s ease-in-out;
+        /* Nova animació de gir sencer de 360 graus amb efecte de salt */
+        @keyframes girarDado {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.18); } /* Creix una mica a mig camí per donar volum */
+            100% { transform: rotate(360deg) scale(1); }
         }
 
-        @keyframes tremor {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.9) rotate(-5deg); }
-            100% { transform: scale(1) rotate(0deg); }
+        .animar-gir {
+            animation: girarDado 0.45s ease-in-out;
         }
 
         .boton-imatge {
@@ -70,7 +70,6 @@
             <img id="dado" src="1.jpg" alt="Dado">
         </div>
 
-        
         <img id="btnTirar" class="boton-imatge" src="BOTO TIRAR-07.jpg" alt="Botó Tirar" onclick="tirarDadoInstantaneo()">
     </div>
 
@@ -80,14 +79,14 @@
         let imgDado = document.getElementById('dado');
 
         function tirarDadoInstantaneo() {
-            // 1. Tria un número a l'atzar a l'instant (de l'1 al 6)
+            // 1. Tria el número a l'atzar
             let resultadoFinal = Math.floor(Math.random() * longitudCaras);
             imgDado.src = carasDado[resultadoFinal];
 
-            // 2. Afegim un mini efecte visual de moviment perquè es noti el canvi si surt el mateix número dues vegades seguides
-            imgDado.classList.remove('sacudida');
-            void imgDado.offsetWidth; // Truc de codi per reiniciar l'animació
-            imgDado.classList.add('sacudida');
+            // 2. Reinicia i activa el gir sencer de 360°
+            imgDado.classList.remove('animar-gir');
+            void imgDado.offsetWidth; // Truc per reiniciar l'animació a l'instant
+            imgDado.classList.add('animar-gir');
         }
     </script>
 </body>
