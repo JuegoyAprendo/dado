@@ -38,10 +38,10 @@
             object-fit: contain;
         }
 
-        /* Nova animació de gir sencer de 360 graus amb efecte de salt */
+        /* Animació de gir sencer de 360 graus amb efecte de salt */
         @keyframes girarDado {
             0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.18); } /* Creix una mica a mig camí per donar volum */
+            50% { transform: rotate(180deg) scale(1.18); } /* Creix a mig camí per donar volum */
             100% { transform: rotate(360deg) scale(1); }
         }
 
@@ -67,7 +67,6 @@
 
     <div class="contenedor">
         <div class="contenedor-dado">
-            <!-- Canviat a 1.png per defecte -->
             <img id="dado" src="1.png" alt="Dado">
         </div>
 
@@ -75,17 +74,29 @@
     </div>
 
     <script>
-        // Canviades totes les rutes de les cares a .png
         const carasDado = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png'];
         let longitudCaras = carasDado.length;
         let imgDado = document.getElementById('dado');
+        
+        // Variable per recordar quin número ha sortit a la tirada anterior
+        let resultadoAnterior = -1; 
 
         function tirarDadoInstantaneo() {
-            // 1. Tria el número a l'atzar
-            let resultadoFinal = Math.floor(Math.random() * longitudCaras);
+            let resultadoFinal;
+
+            // Bucle que tria un número a l'atzar i només para quan és diferent a l'anterior...
+            // O quan el número anterior era el '6.png' (que està a la posició 5 de la llista)
+            do {
+                resultadoFinal = Math.floor(Math.random() * longitudCaras);
+            } while (resultadoFinal === resultadoAnterior && resultadoAnterior !== 5);
+
+            // Guardem el resultat actual com a "anterior" per a la pròxima tirada
+            resultadoAnterior = resultadoFinal;
+
+            // Cambiem la imatge del dau
             imgDado.src = carasDado[resultadoFinal];
 
-            // 2. Reinicia i activa el gir sencer de 360°
+            // Reiniciem i activem el gir sencer de 360°
             imgDado.classList.remove('animar-gir');
             void imgDado.offsetWidth; // Truc per reiniciar l'animació a l'instant
             imgDado.classList.add('animar-gir');
