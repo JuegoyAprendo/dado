@@ -38,15 +38,15 @@
             object-fit: contain;
         }
 
-        /* Animació de gir sencer de 360 graus amb efecte de salt */
-        @keyframes girarDado {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.18); } /* Creix a mig camí per donar volum */
-            100% { transform: rotate(360deg) scale(1); }
+        /* Tornem a la sacsejada ràpida i suau del principi */
+        .sacudida {
+            animation: tremor 0.15s ease-in-out;
         }
 
-        .animar-gir {
-            animation: girarDado 0.45s ease-in-out;
+        @keyframes tremor {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.92) rotate(-5deg); }
+            100% { transform: scale(1) rotate(0deg); }
         }
 
         .boton-imatge {
@@ -85,21 +85,21 @@
             let resultadoFinal;
 
             // Bucle que tria un número a l'atzar i només para quan és diferent a l'anterior...
-            // O quan el número anterior era el '6.png' (que està a la posició 5 de la llista)
+            // O quan el número anterior era el '6.png' (posició 5)
             do {
                 resultadoFinal = Math.floor(Math.random() * longitudCaras);
             } while (resultadoFinal === resultadoAnterior && resultadoAnterior !== 5);
 
-            // Guardem el resultat actual com a "anterior" per a la pròxima tirada
+            // Guardem el resultat actual per a la pròxima tirada
             resultadoAnterior = resultadoFinal;
 
-            // Cambiem la imatge del dau
+            // Canviem la imatge del dau
             imgDado.src = carasDado[resultadoFinal];
 
-            // Reiniciem i activem el gir sencer de 360°
-            imgDado.classList.remove('animar-gir');
+            // Reiniciem i activem la sacsejada curta
+            imgDado.classList.remove('sacudida');
             void imgDado.offsetWidth; // Truc per reiniciar l'animació a l'instant
-            imgDado.classList.add('animar-gir');
+            imgDado.classList.add('sacudida');
         }
     </script>
 </body>
