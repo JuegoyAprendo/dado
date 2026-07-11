@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dado Digital - Juego y Aprendo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .contenedor {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .contenedor-dado {
+            width: 250px;
+            height: 250px;
+            perspective: 1000px;
+        }
+
+        #dado {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Petit efecte de sacsejada ràpida cada vegada que es clica */
+        .sacudida {
+            animation: tremor 0.15s ease-in-out;
+        }
+
+        @keyframes tremor {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.9) rotate(-5deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .boton-imatge {
+            width: 280px;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .boton-imatge:active {
+            transform: scale(0.92);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor">
+        <div class="contenedor-dado">
+            <img id="dado" src="1.jpg" alt="Dado">
+        </div>
+        
+        <img id="btnTirar" class="boton-imatge" src="BOTO TIRAR-07.jpg" alt="Botó Tirar" onclick="tirarDadoInstantaneo()">
+    </div>
+
+    <script>
+        const carasDado = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg'];
+        let longitudCaras = carasDado.length;
+        let imgDado = document.getElementById('dado');
+
+        function tirarDadoInstantaneo() {
+            // 1. Tria un número a l'atzar a l'instant (de l'1 al 6)
+            let resultadoFinal = Math.floor(Math.random() * longitudCaras);
+            imgDado.src = carasDado[resultadoFinal];
+
+            // 2. Afegim un mini efecte visual de moviment perquè es noti el canvi si surt el mateix número dues vegades seguides
+            imgDado.classList.remove('sacudida');
+            void imgDado.offsetWidth; // Truc de codi per reiniciar l'animació
+            imgDado.classList.add('sacudida');
+        }
+    </script>
+</body>
+</html>
